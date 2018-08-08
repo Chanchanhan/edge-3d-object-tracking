@@ -35,12 +35,16 @@ int main(int argc, char** argv) {
     double pose_parameter_tr[6] = { -1.360675971955060959e-02,		- 1.190256699919700623e-02,1.395618438720703125e+00,
                                     1.435960412025451660e+00,		1.953682899475097656e+00,- 1.178424954414367676e+00};
 
+
     Mat frame = imread(imgFile);
     cv::Mat last_frame;
 
     Histogram f, g;
     int frame_id = 0;
     Post post;
+    Solver solver;
+    solver.init(pose_parameter_tr);
+
     while (!frame.empty())
     {
         vector<vec3> support_points;
@@ -59,16 +63,22 @@ int main(int argc, char** argv) {
 
         vec3 tj0(pose_parameter_tr);
         vec3 rj0(pose_parameter_tr + 3);
-        Mat draw0 = render.DrawOn(frame, rj0, tj0, Scalar(0, 255, 0));
 
-        Solver solver;
+        Utils::SampleVertices(support_points, rendered, render);
+
         solver.Optimize(pose_parameter_tr,K,post,render);
+
+//        Mat segment = post.SegmentByHistogram(frame);
+//        solver.Optimize(pose_parameter_tr, support_points, K, post.frame_dtMap);
+//        solver.Optimize(pose_parameter_tr, support_points, K,segment);
+
+
         vec3 tj(pose_parameter_tr);
         vec3 rj(pose_parameter_tr + 3);
 
+        Mat draw0 = render.DrawOn(frame, rj0, tj0, Scalar(0, 255, 0));
         Mat draw = render.DrawOn(frame, rj, tj, Scalar(0, 255, 0));
         imshow("input", draw0);
-
         imshow("result", draw);
         waitKey(0);
         frame_id++;

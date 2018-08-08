@@ -21,6 +21,7 @@ namespace Utils{
     vec2 Project(vec3 pt, mat3 K);
     vec2 world2pixel(vec4 Xw, mat4 T, mat3 K);
     vec2 world2pixel(vec3 Xw, mat3 R, vec3 t, mat3 K);
+    void BresehanCircle(const vec2 &vec,int radius,std::vector<vec2> &sampleVecs);
 }
 
 

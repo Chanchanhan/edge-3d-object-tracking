@@ -15,6 +15,7 @@
 class Solver{
 public:
     Solver();
+    ~Solver();
     void init(double* pose)
     {
         for (size_t i = 0; i < p_num_; i++)
@@ -30,8 +31,13 @@ public:
             weight[i] /= sum;
         }
     }
-    void Optimize(double  * pose,mat3 &K,Post &post,ModelWarpper &render);
+    void Optimize(double * pose,mat3 &K,Post &post,ModelWarpper &render);
+    void Optimize(double * pose_parameter, std::vector<vec3> &support_points,
+             mat3 &K, cv::Mat &distance_map);
 private:
+    void Resample(std::vector<double*> particle, double* weight, const int p_num);
+private:
+
     ceres::Solver::Options options;
 
     int optimal_index_ = 0;

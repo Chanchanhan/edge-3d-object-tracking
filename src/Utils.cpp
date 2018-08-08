@@ -79,6 +79,7 @@ bool Utils::SampleVertices(std::vector<vec3>& support_points, cv::Mat &rendered,
         return false;
     const int sample_num = std::min((int)rendered_countours[0].size(), 100);
     int step = rendered_countours[0].size()/sample_num;
+//    int  step =1;
     for (size_t i = 0; i < sample_num; i+=step)
     {
         auto sample = (rendered_countours[0][i * rendered_countours[0].size() / sample_num]);
@@ -114,4 +115,50 @@ vec2 Utils::world2pixel(vec3 Xw, mat3 R, vec3 t, mat3 K)
 {
 
     return Project(R * Xw + t, K);
+}
+
+
+
+struct cmp{
+    bool operator()(const vec2 &a,const vec2 &b){
+        if(a[1]!=b[1])
+            return a[1]<b[1];
+        return a[0]<b[0];
+    }
+};
+void Utils::BresehanCircle(const vec2 &vec,int radius,std::vector<vec2> &sampleVecs){
+    double c_x=0,c_y = radius;
+    double d = 1-radius;
+    static  std::set<vec2,cmp> point_set;
+    static  bool first = true;
+    if(first){
+        while (c_x<c_y){
+            point_set.insert({c_x,c_y});
+            point_set.insert({c_y,c_x});
+            point_set.insert({-c_x,c_y});
+            point_set.insert({-c_y,c_x});
+
+            point_set.insert({-c_x,-c_y});
+            point_set.insert({-c_y,-c_x});
+            point_set.insert({c_x,-c_y});
+            point_set.insert({c_y,-c_x});
+
+            if(d<0)
+            {
+                d = d+2*c_x+3;
+            }
+            else
+            {
+                d=d+2*(c_x-c_y)+5;
+                c_y--;
+            }
+            c_x++;
+        }
+        first  = false;
+    }
+
+    for(auto& p:point_set)
+    {
+        sampleVecs.emplace_back(vec[0] + p[0],vec[1] + p[1]);
+    }
 }

@@ -19,11 +19,13 @@ public:
     void UpdateSegment(const cv::Mat &frame,const int &radius);
     void UpdateDT(const cv::Mat& mask);
     void UpdateHistogramOptimize(const cv::Mat& mask);
+    void UpdateFrameDT(const cv::Mat &frame);
+    cv::Mat SegmentByHistogram(const cv::Mat& frame);
 
     Histogram f_post, b_post;
     double nf,nb;
     cv::Mat segment;
-    cv::Mat dtMap;
+    cv::Mat dtMap,frame_dtMap;
     cv::Mat mask;
     cv::Mat lv_set;
     cv::Mat forthMap,backMap;
