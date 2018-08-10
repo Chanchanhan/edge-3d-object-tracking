@@ -13,7 +13,7 @@ Post::Post() {
 void Post::Update(const cv::Mat &frame, const cv::Mat &mask, const int &radius, bool first) {
     UpdateDT(mask);
     UpdateHistogram(frame,mask,first);
-    UpdateSegment(frame,radius);
+//    UpdateSegment(frame,radius);
     UpdateFrameDT(frame);
 //    cv::imshow("segment",segment*255);
 //    cv::waitKey(0);
@@ -151,9 +151,7 @@ cv::Mat Post::SegmentByHistogram(const cv::Mat& frame)
 void Post::UpdateFrameDT(const cv::Mat &frame) {
     using namespace cv;
 
-    int edgeThresh = 1;
-    int lowThreshold = 50;
-    int const max_lowThreshold = 100;
+    int lowThreshold = 10;
     int ratio = 3;
     int kernel_size = 3;
 
@@ -161,11 +159,10 @@ void Post::UpdateFrameDT(const cv::Mat &frame) {
     cvtColor( frame, gray, COLOR_BGR2GRAY );
     blur( gray, edge, Size(3,3) );
     Canny( edge, edge, lowThreshold, lowThreshold*ratio, kernel_size );
-//    imshow("edge",edge);
+    imshow("edge",edge);
     threshold(edge, bw, 40, 255, THRESH_BINARY | THRESH_OTSU);
     cv::distanceTransform(~bw, frame_dtMap, cv::DIST_L2, 3);
-//    normalize(frame_dtMap,frame_dtMap,255);
-    imshow("Distance Transform Image", frame_dtMap);
+
 //    waitKey(0);
 
 
