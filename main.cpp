@@ -67,7 +67,6 @@ int main(int argc, char** argv) {
     Mat frame = imread(imgFile);
     cv::Mat last_frame;
     bool first = true;
-    Histogram f, g;
     Post post;
     Solver solver;
     solver.init(pose_parameter_tr);
@@ -83,7 +82,6 @@ int main(int argc, char** argv) {
         auto mask = rendered > 1;
 
         post.UpdateFrameDT(frame);
-//        post.Update(frame,mask,8,true);
 
 
         vec3 tj0(pose_parameter_tr);
@@ -131,21 +129,21 @@ int main(int argc, char** argv) {
             sprintf(tFile, "/home/qqh/Developer/DataSets/6d-pose/backup/cat/test/pr2/t_%04d.txt", frame_id);
             r2_stream=ifstream(rFile);
             t2_stream=ifstream(tFile);
+//
+//
+//            frame = imread(imgFile);
+//            vector<vec3> support_points;
+//            vec3 ti(pose_parameter_tr);
+//            vec3 ri(pose_parameter_tr + 3);
+//
+//            mat4 T = Utils::GetTranformation(ri, ti);
+//            render.DisplayGL(T);
+//            auto rendered = render.render_.getRenderedImg();
+//            auto mask = rendered > 1;
+//            post.UpdateFrameDT(frame);
+//            solver.Optimize(pose_parameter_tr, support_points, K, post.frame_dtMap);
 
-
-            frame = imread(imgFile);
-            vector<vec3> support_points;
-            vec3 ti(pose_parameter_tr);
-            vec3 ri(pose_parameter_tr + 3);
-
-            mat4 T = Utils::GetTranformation(ri, ti);
-            render.DisplayGL(T);
-            auto rendered = render.render_.getRenderedImg();
-            auto mask = rendered > 1;
-            post.UpdateFrameDT(frame);
-            solver.Optimize(pose_parameter_tr, support_points, K, post.frame_dtMap);
-
-            waitKey(1);
+//            waitKey(1);
 
         }
         if(r_stream.is_open()){
@@ -166,6 +164,7 @@ int main(int argc, char** argv) {
             while(r2_stream.getline(s,MAX_FILE_LEN)){
                 pose_parameter_yolo2[cnt++]=atof(s);
             }
+            solver.init(pose_parameter_tr);
 
         }
 

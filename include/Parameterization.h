@@ -1,5 +1,5 @@
 //
-// Created by chuguanyi on 18-3-25.
+// Created by qqh on 18-8-7.
 //
 #pragma once
 #include <ceres/ceres.h>

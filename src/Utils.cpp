@@ -80,9 +80,9 @@ bool Utils::SampleVertices(std::vector<vec3>& support_points, cv::Mat &rendered,
     const int sample_num = std::min((int)rendered_countours[0].size(), 100);
     int step = rendered_countours[0].size()/sample_num;
 //    int  step =1;
-    for (size_t i = 0; i < sample_num; i+=step)
+    for (size_t i = 0; i < sample_num*step; i+=step)
     {
-        auto sample = (rendered_countours[0][i * rendered_countours[0].size() / sample_num]);
+        auto sample = (rendered_countours[0][i]);
         support_points.push_back((cv::Vec3f)cube.render_.get3DPos(sample.x, sample.y));
     }
     return true;

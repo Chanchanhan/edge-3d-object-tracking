@@ -6,7 +6,6 @@
 #define ROBOT_POST_H
 
 
-#include "Histogram.h"
 #include "types.h"
 #include "Utils.h"
 class Post{
@@ -14,23 +13,10 @@ class Post{
 public:
     Post();
     ~Post(){};
-    void Update(const cv::Mat &frame , const cv::Mat &mask,const int &radius,bool first = false);
-    void UpdateHistogram(const cv::Mat& frame,const cv::Mat& mask,bool first = false);
-    void UpdateSegment(const cv::Mat &frame,const int &radius);
-    void UpdateDT(const cv::Mat& mask);
-    void UpdateHistogramOptimize(const cv::Mat& mask);
-    void UpdateFrameDT(const cv::Mat &frame);
-    cv::Mat SegmentByHistogram(const cv::Mat& frame);
 
-    Histogram f_post, b_post;
-    double nf,nb;
-    cv::Mat segment;
+    void UpdateFrameDT(const cv::Mat &frame);
+
     cv::Mat dtMap,frame_dtMap;
-    cv::Mat mask;
-    cv::Mat lv_set;
-    cv::Mat forthMap,backMap;
-    Histogram hist_forth;
-    Histogram hist_backgound;
 };
 
 

@@ -41,14 +41,14 @@ private:
     ceres::Solver::Options options;
 
     int optimal_index_ = 0;
-    static const int p_num_ = 6;
+    static const int p_num_ = 4;
     std::vector<double*> particle;
     double weight_[p_num_];
     std::random_device seed_;
     std::default_random_engine e;
     std::normal_distribution<double> gassuia_distrubtion[6]{
             std::normal_distribution<double>(0,0.01), std::normal_distribution<double>(0,0.01), std::normal_distribution<double>(0,0.01),
-            std::normal_distribution<double>(0,0.02), std::normal_distribution<double>(0,0.02), std::normal_distribution<double>(0,0.02)
+            std::normal_distribution<double>(0,0.08), std::normal_distribution<double>(0,0.08), std::normal_distribution<double>(0,0.08)
     };
 
 };
